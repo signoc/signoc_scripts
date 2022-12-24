@@ -2,7 +2,7 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0
+-- @version 1.0.1
 -- @changelog
 --      First version
 -- @provides
@@ -1714,4 +1714,3 @@ do
     all_vars.gui.action_dblbutton_shift =  DblButtonShift:new()
 end
 reaper.defer(apploop)
-

@@ -143,6 +143,3 @@ function all(t)
     end
     return true
 end
-
-
-
