@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="signoc_scripts" commit="92ba07956fe069b5843dad9d31fae602ad690b7f">
+<index version="1" commit="f19177313755ce8e807879351f8fddb3a4066eac">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
@@ -33,10 +33,10 @@
         <link rel="website" href="https://forum.cockos.com/member.php?u=10082">Author URI</link>
         <link rel="donation">https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8</link>
       </metadata>
-      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-05T22:23:33Z">
+      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-24T10:58:27Z">
         <changelog><![CDATA[First version]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/25ebbeab8e5421dbfe2da7a9be69a31564974cd5/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/25ebbeab8e5421dbfe2da7a9be69a31564974cd5/library.lua</source>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/f19177313755ce8e807879351f8fddb3a4066eac/MIDI%20Editor/signoc_velocity_histogram.lua</source>
+        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/f19177313755ce8e807879351f8fddb3a4066eac/library.lua</source>
       </version>
     </reapack>
   </category>
@@ -54,9 +54,9 @@
         <link rel="website" href="https://forum.cockos.com/member.php?u=10082">Author URI</link>
         <link rel="donation">https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8</link>
       </metadata>
-      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-06T00:42:06Z">
+      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-24T10:58:27Z">
         <changelog><![CDATA[First version]]></changelog>
-        <source main="main">https://github.com/signoc/signoc_scripts/raw/5174883b4ffe205ffd65e9e4273d0ee5ac43d9d7/Various/signoc_adjust_project_grid(mousewheel).lua</source>
+        <source main="main">https://github.com/signoc/signoc_scripts/raw/f19177313755ce8e807879351f8fddb3a4066eac/Various/signoc_adjust_project_grid(mousewheel).lua</source>
       </version>
     </reapack>
   </category>
