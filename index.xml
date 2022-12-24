@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" name="signoc_scripts" commit="92ba07956fe069b5843dad9d31fae602ad690b7f">
+  <category name="MIDI Editor">
+    <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Velocity Histogram\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Velocity histogram is a utility to deal with on and off velocity. It displays a histogram of the selected notes velocitues in the main section of its interface. Far left is velocity = 1, and far right is velocity = 127. If the velocity area is hovered then it displays the notes velocitues and relative position as circles/dots over the histogram.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The main section(histogram) can be activeted by clicking and holding the left button. Moving the mouse up/down offsets the velocities in either direction. Moving left/right scales the velocities around the mean.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Buttons with double movement, thats is left/right and up/down can be locked to single axis movement by holding shift and dragging in the desired direction. holding ctrl will scale the influence of the movement allowing for finer adjustments\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Tilt button\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button to activate.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Left/right movement - tilts/angles the velocities from the center of the selection. Up/down - Offset velocities. This is useful if the tilting hits the bottom or top\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Ramp\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Ramp takes the lowest velocity at the start and the highest velocity at the end and creates a linear interpolation between them ramping up the velocities if you click the left mouse button.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold the left button and drag up/down to change the ramp curvature.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Chaos\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 This function adds random offsets to each note.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button to activate. Make a new random series by clicking right button while holding left button pressed.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Up/Down movement to scale the offsets added.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Straighten\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button and drag left/right to scale velocities away or towards the trend line of the selected velocities.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 If you have an overall ramping trend but to much "chaos" in the velocities this helps scaling it down while maintaining the overall ramp.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Shift < >\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The shift button shift note velocities to previous or next note. This function may be replaced, and was added to utilise the space since the development of another function was put on hold.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 On or Off\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Switch between note on velocity and note off velocity.\par}
+}
+]]></description>
+        <link rel="website" href="https://forum.cockos.com/member.php?u=10082">Author URI</link>
+        <link rel="donation">https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8</link>
+      </metadata>
+      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-05T22:23:33Z">
+        <changelog><![CDATA[First version]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/25ebbeab8e5421dbfe2da7a9be69a31564974cd5/MIDI%20Editor/signoc_velocity_histogram.lua</source>
+        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/25ebbeab8e5421dbfe2da7a9be69a31564974cd5/library.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Various">
+    <reapack name="signoc_adjust_project_grid(mousewheel).lua" type="script" desc="Adjust project grid(mousewheel)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Adjust project grid\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Action to bind mouse wheel to be able to adjust project grid setting. For example shortcut ctrl+alt+mousewheel\par}
+}
+]]></description>
+        <link rel="website" href="https://forum.cockos.com/member.php?u=10082">Author URI</link>
+        <link rel="donation">https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8</link>
+      </metadata>
+      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-06T00:42:06Z">
+        <changelog><![CDATA[First version]]></changelog>
+        <source main="main">https://github.com/signoc/signoc_scripts/raw/5174883b4ffe205ffd65e9e4273d0ee5ac43d9d7/Various/signoc_adjust_project_grid(mousewheel).lua</source>
+      </version>
+    </reapack>
+  </category>
+</index>
