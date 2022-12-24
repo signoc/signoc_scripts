@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f784b87c8033180bffe73d93d88f3559b736419d">
+<index version="1" commit="f784b87c8033180bffe73d93d88f3559b736419d" name="signoc_scripts">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
