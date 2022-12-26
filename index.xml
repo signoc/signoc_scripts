@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f784b87c8033180bffe73d93d88f3559b736419d" name="signoc_scripts">
+<index version="1" commit="4562d550fdc750cf233945772039ecfabb41e241" name="signoc_scripts">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
@@ -42,6 +42,11 @@
         <changelog><![CDATA[First version]]></changelog>
         <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/f784b87c8033180bffe73d93d88f3559b736419d/MIDI%20Editor/signoc_velocity_histogram.lua</source>
         <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/f784b87c8033180bffe73d93d88f3559b736419d/library.lua</source>
+      </version>
+      <version name="1.0.2" author="signoc (Sigge Eriksson)" time="2022-12-26T23:33:26Z">
+        <changelog><![CDATA[Changed monospace font]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/4562d550fdc750cf233945772039ecfabb41e241/MIDI%20Editor/signoc_velocity_histogram.lua</source>
+        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/4562d550fdc750cf233945772039ecfabb41e241/library.lua</source>
       </version>
     </reapack>
   </category>
