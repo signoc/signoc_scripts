@@ -2,9 +2,9 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0.1
+-- @version 1.0.2
 -- @changelog
---      First version
+--      Changed monospace font
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram.lua 
 --    [nomain]../library.lua
@@ -191,7 +191,9 @@ end
 function setup_imgui(vars)
     vars.ctx = reaper.ImGui_CreateContext("VELOCITY HISTOGRAM")
     vars.font.default =  reaper.ImGui_CreateFont('Arial', 16)
-    vars.font.monospace = reaper.ImGui_CreateFont('Consolas', 16)
+--    vars.font.monospace = reaper.ImGui_CreateFont('Consolas', 16)
+    vars.font.monospace = reaper.ImGui_CreateFont('Lucida Console', 16)
+--    vars.font.monospace = reaper.ImGui_CreateFont('Monaco', 16)
     reaper.ImGui_Attach(vars.ctx, vars.font.default) 
     reaper.ImGui_Attach(vars.ctx, vars.font.monospace) 
     vars.plot_type = reaper.GetExtState(vars.extstate_section, "type") 
