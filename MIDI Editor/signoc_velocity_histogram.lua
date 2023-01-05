@@ -2,11 +2,12 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0.3
+-- @version 1.0.4
 -- @changelog
 --      Changed monospace font Courier New
 --      Made environment change trigger evnt reload always and not only when
 --      midihash changed.
+--      Added MIDI_Sort.
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram.lua 
 --    [nomain]../library.lua
@@ -483,6 +484,7 @@ function update_all_events(take, all_events, notes)
     end
     local t = table.concat(e,nil)
     reaper.MIDI_SetAllEvts(take, t)
+    reaper.MIDI_Sort(take);
 end
 
 function clone_notes(notes)
