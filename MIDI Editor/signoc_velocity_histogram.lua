@@ -2,12 +2,13 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0.4
+-- @version 1.0.5
 -- @changelog
 --      Changed monospace font Courier New
 --      Made environment change trigger evnt reload always and not only when
 --      midihash changed.
 --      Added MIDI_Sort.
+--      Bugfix regarding midi events that was selected and where not note events.
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram.lua 
 --    [nomain]../library.lua
@@ -341,6 +342,8 @@ function read_all_events(vars)
                 if prevpos < pos then
                     t_evts[#t_evts + 1] = evts:sub(prevpos, pos - 1)
                 end
+            else
+                t_evts[#t_evts + 1] = evts:sub(prevpos, pos-1)
             end
         else
             -- All unselected events stored as one pack
