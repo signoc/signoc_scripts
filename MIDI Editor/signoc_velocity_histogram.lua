@@ -2,7 +2,7 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0.5
+-- @version 1.0.6beta
 -- @changelog
 --      Changed monospace font Courier New
 --      Made environment change trigger evnt reload always and not only when
@@ -14,6 +14,15 @@
 --    [nomain]../library.lua
 -- @donation https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8
 -- @about
+--    # Beta
+--
+--    Consider the script to be in beta state. There is some unknown behaviour that I have 
+--    trouble to replicate that changes the midi events somehow.
+--    The current scripts tries to detect this when reading the events and compares
+--    the analyzed data to the original data. If there is a difference an error should occur.
+--    Also if there is a difference in expected message length when on note on/off the
+--    script tries to detect this and throw an error.
+--
 --    # Velocity Histogram
 --
 --    Velocity histogram is a utility to deal with on and off velocity. It displays a histogram
@@ -328,6 +337,7 @@ function read_all_events(vars)
                 sel_on[#sel_on + 1] = NoteEvt:new(#t_evts, ppq, msg:byte(3))
                 -- Check if there is more data for some "future reason" ?
                 if prevpos < pos then
+                    error("More data found than expected at note-on")
                     t_evts[#t_evts + 1] = evts:sub(prevpos, pos - 1)
                 end
             elseif ms == 8 then
@@ -340,6 +350,7 @@ function read_all_events(vars)
                 sel_off[#sel_off + 1] = NoteEvt:new(#t_evts, ppq, msg:byte(3))
                 -- Check if there is more data for some "future reason" ?
                 if prevpos < pos then
+                    error("More data found than expected at note-off")
                     t_evts[#t_evts + 1] = evts:sub(prevpos, pos - 1)
                 end
             else
@@ -353,6 +364,11 @@ function read_all_events(vars)
     vars.t_events = t_evts
     vars.t_noteon_src = sel_on
     vars.t_noteoff_src = sel_off
+    local t = table.concat(t_evts,nil)
+    if t ~= evts then
+        error("Somehow the data could not be analyzed, the analyzed data differs from the original data. Quiting the script");
+    end
+    
     if is_type_on(vars) then
         set_current_type_on(vars)
     elseif is_type_off(vars) then
@@ -483,7 +499,7 @@ function update_all_events(take, all_events, notes)
         ix = n[i].idx
         t = n[i]:get_midi_vel()
 
-        e[ix ] = string.char(t)
+        e[ix] = string.char(t)
     end
     local t = table.concat(e,nil)
     reaper.MIDI_SetAllEvts(take, t)
