@@ -2,9 +2,11 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 1.0.2
+-- @version 1.0.3
 -- @changelog
---      Changed monospace font
+--      Changed monospace font Courier New
+--      Made environment change trigger evnt reload always and not only when
+--      midihash changed.
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram.lua 
 --    [nomain]../library.lua
@@ -153,7 +155,7 @@ function get_reaper_environment(env)
         env = LockKeys(MakeTable("midieditor","take","mediaitem","itemname","trackname","midihash","changed"))
     end
     
-    t.midieditor = nilencode(reaper.MIDIEditor_GetActive(reaper.MIDIEditor_GetActive()))
+    t.midieditor = nilencode(reaper.MIDIEditor_GetActive())
     
     changed.midieditor = (t.midieditor ~= env.midieditor)
      if t.midieditor == nilvalue() then
@@ -192,7 +194,9 @@ function setup_imgui(vars)
     vars.ctx = reaper.ImGui_CreateContext("VELOCITY HISTOGRAM")
     vars.font.default =  reaper.ImGui_CreateFont('Arial', 16)
 --    vars.font.monospace = reaper.ImGui_CreateFont('Consolas', 16)
-    vars.font.monospace = reaper.ImGui_CreateFont('Lucida Console', 16)
+--    vars.font.monospace = reaper.ImGui_CreateFont('Lucida Console', 16)
+    vars.font.monospace = reaper.ImGui_CreateFont('Courier New', 16)
+--  reaper.ShowConsoleMsg(tostring(vars.font.monospace));
 --    vars.font.monospace = reaper.ImGui_CreateFont('Monaco', 16)
     reaper.ImGui_Attach(vars.ctx, vars.font.default) 
     reaper.ImGui_Attach(vars.ctx, vars.font.monospace) 
@@ -1624,11 +1628,11 @@ function apploop()
     vars.environment = env 
     -- Some essential value changed
     if changed_env_vars then
-        if env.changed.midihash then
+--        if env.changed.midihash then
             read_all_events(vars)
             vars.statistics = calculate_note_statistics(vars.t_note_src)
             
-        end
+--        end
     end    
     
     --------------------------------------------------------------------------------------------------------------------
