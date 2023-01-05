@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c1b3b76f83f43fd414950232b68492ba82848f79" name="signoc_scripts">
+<index version="1" commit="14a0eafea807a5570c27d93b2ec3d18ddb8db55f" name="signoc_scripts">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
@@ -7,6 +7,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Beta\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Consider the script to be in beta state. There is some unknown behaviour that I have trouble to replicate that changes the midi events somehow. The current scripts tries to detect this when reading the events and compares the analyzed data to the original data. If there is a difference an error should occur. Also if there is a difference in expected message length when on note on/off the script tries to detect this and throw an error.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Velocity Histogram\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Velocity histogram is a utility to deal with on and off velocity. It displays a histogram of the selected notes velocitues in the main section of its interface. Far left is velocity = 1, and far right is velocity = 127. If the velocity area is hovered then it displays the notes velocitues and relative position as circles/dots over the histogram.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The main section(histogram) can be activeted by clicking and holding the left button. Moving the mouse up/down offsets the velocities in either direction. Moving left/right scales the velocities around the mean.\par}
@@ -71,6 +73,15 @@ Added MIDI_Sort.
 Bugfix regarding midi events that was selected and where not note events.]]></changelog>
         <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/c1b3b76f83f43fd414950232b68492ba82848f79/MIDI%20Editor/signoc_velocity_histogram.lua</source>
         <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/c1b3b76f83f43fd414950232b68492ba82848f79/library.lua</source>
+      </version>
+      <version name="1.0.6beta" author="signoc (Sigge Eriksson)" time="2023-01-05T18:10:02Z">
+        <changelog><![CDATA[Changed monospace font Courier New
+Made environment change trigger evnt reload always and not only when
+midihash changed.
+Added MIDI_Sort.
+Bugfix regarding midi events that was selected and where not note events.]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/14a0eafea807a5570c27d93b2ec3d18ddb8db55f/MIDI%20Editor/signoc_velocity_histogram.lua</source>
+        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/14a0eafea807a5570c27d93b2ec3d18ddb8db55f/library.lua</source>
       </version>
     </reapack>
   </category>
