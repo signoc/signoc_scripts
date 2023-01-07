@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="d17e3a1f78dd1105663c74fb6a094615db86e3a2" name="signoc_scripts">
+<index version="1" commit="c0d3ca47e7d11c7fe5b79a9f1774139582631d46" name="signoc_scripts">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
@@ -136,6 +136,12 @@ before notes are updated.]]></changelog>
         <changelog><![CDATA[note statics amount of note check.]]></changelog>
         <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/d17e3a1f78dd1105663c74fb6a094615db86e3a2/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
         <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/d17e3a1f78dd1105663c74fb6a094615db86e3a2/library_mu.lua</source>
+      </version>
+      <version name="0.9.3-beta" author="signoc (Sigge Eriksson)" time="2023-01-07T15:10:05Z">
+        <changelog><![CDATA[Additional beta safeguards around possible non finite velocity values. 
+Scripts exits with error if that happens. ]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/c0d3ca47e7d11c7fe5b79a9f1774139582631d46/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
+        <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/c0d3ca47e7d11c7fe5b79a9f1774139582631d46/library_mu.lua</source>
       </version>
     </reapack>
   </category>
