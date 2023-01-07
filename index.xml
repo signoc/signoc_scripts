@@ -1,89 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c0d3ca47e7d11c7fe5b79a9f1774139582631d46" name="signoc_scripts">
+<index version="1" commit="e336f258072b8b958781e84bcfd4ecadc8ba5a32" name="signoc_scripts">
   <category name="MIDI Editor">
-    <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Beta\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Consider the script to be in beta state. There is some unknown behaviour that I have trouble to replicate that changes the midi events somehow. The current scripts tries to detect this when reading the events and compares the analyzed data to the original data. If there is a difference an error should occur. Also if there is a difference in expected message length when on note on/off the script tries to detect this and throw an error.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Velocity Histogram\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Velocity histogram is a utility to deal with on and off velocity. It displays a histogram of the selected notes velocitues in the main section of its interface. Far left is velocity = 1, and far right is velocity = 127. If the velocity area is hovered then it displays the notes velocitues and relative position as circles/dots over the histogram.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 The main section(histogram) can be activeted by clicking and holding the left button. Moving the mouse up/down offsets the velocities in either direction. Moving left/right scales the velocities around the mean.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Buttons with double movement, thats is left/right and up/down can be locked to single axis movement by holding shift and dragging in the desired direction. holding ctrl will scale the influence of the movement allowing for finer adjustments\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Tilt button\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button to activate.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Left/right movement - tilts/angles the velocities from the center of the selection. Up/down - Offset velocities. This is useful if the tilting hits the bottom or top\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Ramp\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Ramp takes the lowest velocity at the start and the highest velocity at the end and creates a linear interpolation between them ramping up the velocities if you click the left mouse button.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold the left button and drag up/down to change the ramp curvature.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Chaos\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 This function adds random offsets to each note.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button to activate. Make a new random series by clicking right button while holding left button pressed.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Up/Down movement to scale the offsets added.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Straighten\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Press and hold left mouse button and drag left/right to scale velocities away or towards the trend line of the selected velocities.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 If you have an overall ramping trend but to much "chaos" in the velocities this helps scaling it down while maintaining the overall ramp.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Shift < >\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 The shift button shift note velocities to previous or next note. This function may be replaced, and was added to utilise the space since the development of another function was put on hold.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 On or Off\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Switch between note on velocity and note off velocity.\par}
-}
-]]></description>
-        <link rel="website" href="https://forum.cockos.com/member.php?u=10082">Author URI</link>
-        <link rel="donation">https://www.paypal.com/donate/?hosted_button_id=FARB5QU9C8VT8</link>
-      </metadata>
-      <version name="1.0" author="signoc (Sigge Eriksson)" time="2022-12-24T10:58:27Z">
-        <changelog><![CDATA[First version]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/f19177313755ce8e807879351f8fddb3a4066eac/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/f19177313755ce8e807879351f8fddb3a4066eac/library.lua</source>
-      </version>
-      <version name="1.0.1" author="signoc (Sigge Eriksson)" time="2022-12-24T11:40:45Z">
-        <changelog><![CDATA[First version]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/f784b87c8033180bffe73d93d88f3559b736419d/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/f784b87c8033180bffe73d93d88f3559b736419d/library.lua</source>
-      </version>
-      <version name="1.0.2" author="signoc (Sigge Eriksson)" time="2022-12-26T23:33:26Z">
-        <changelog><![CDATA[Changed monospace font]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/4562d550fdc750cf233945772039ecfabb41e241/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/4562d550fdc750cf233945772039ecfabb41e241/library.lua</source>
-      </version>
-      <version name="1.0.3" author="signoc (Sigge Eriksson)" time="2023-01-05T12:00:55Z">
-        <changelog><![CDATA[Changed monospace font Courier New
-Made environment change trigger evnt reload always and not only when
-midihash changed.]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/28c6c5e8e6b826ea8820294b6fd23c22143550a5/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/28c6c5e8e6b826ea8820294b6fd23c22143550a5/library.lua</source>
-      </version>
-      <version name="1.0.4" author="signoc (Sigge Eriksson)" time="2023-01-05T13:23:18Z">
-        <changelog><![CDATA[Changed monospace font Courier New
-Made environment change trigger evnt reload always and not only when
-midihash changed.
-Added MIDI_Sort.]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/3ec0e299a6b1611480aa4d46405ff4067d669a4f/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/3ec0e299a6b1611480aa4d46405ff4067d669a4f/library.lua</source>
-      </version>
-      <version name="1.0.5" author="signoc (Sigge Eriksson)" time="2023-01-05T16:37:20Z">
-        <changelog><![CDATA[Changed monospace font Courier New
-Made environment change trigger evnt reload always and not only when
-midihash changed.
-Added MIDI_Sort.
-Bugfix regarding midi events that was selected and where not note events.]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/c1b3b76f83f43fd414950232b68492ba82848f79/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/c1b3b76f83f43fd414950232b68492ba82848f79/library.lua</source>
-      </version>
-      <version name="1.0.6beta" author="signoc (Sigge Eriksson)" time="2023-01-05T18:10:02Z">
-        <changelog><![CDATA[Changed monospace font Courier New
-Made environment change trigger evnt reload always and not only when
-midihash changed.
-Added MIDI_Sort.
-Bugfix regarding midi events that was selected and where not note events.]]></changelog>
-        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/14a0eafea807a5570c27d93b2ec3d18ddb8db55f/MIDI%20Editor/signoc_velocity_histogram.lua</source>
-        <source file="../library.lua">https://github.com/signoc/signoc_scripts/raw/14a0eafea807a5570c27d93b2ec3d18ddb8db55f/library.lua</source>
-      </version>
-    </reapack>
     <reapack name="signoc_velocity_histogram_mu.lua" type="script" desc="Velocity Histogram MU">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
@@ -142,6 +59,12 @@ before notes are updated.]]></changelog>
 Scripts exits with error if that happens. ]]></changelog>
         <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/c0d3ca47e7d11c7fe5b79a9f1774139582631d46/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
         <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/c0d3ca47e7d11c7fe5b79a9f1774139582631d46/library_mu.lua</source>
+      </version>
+      <version name="0.9.4-beta" author="signoc (Sigge Eriksson)" time="2023-01-07T15:22:44Z">
+        <changelog><![CDATA[Additional beta safeguards around possible non finite velocity values. 
+Scripts exits with error if that happens. ]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/e336f258072b8b958781e84bcfd4ecadc8ba5a32/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
+        <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/e336f258072b8b958781e84bcfd4ecadc8ba5a32/library_mu.lua</source>
       </version>
     </reapack>
   </category>
