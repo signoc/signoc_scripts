@@ -2,9 +2,10 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 0.9.2-beta
+-- @version 0.9.3-beta
 -- @changelog
---    note statics amount of note check.
+--    Additional beta safeguards around possible non finite velocity values. 
+--    Scripts exits with error if that happens. 
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram_mu.lua 
 --    [nomain]../library_mu.lua
@@ -259,9 +260,11 @@ reaper.atexit(function () Exit(all_vars) end)
 
 
 function not_finite(value)
-  local is_inf = (value == math.huge or value == -math.huge)
-  local is_nan = (value ~= value)
-  return is_inf or is_nan
+    local is_inf = (value == math.huge or value == -math.huge)
+    local is_nan = (value ~= value)
+    local is_nil = (value == nil)
+    local is_not_number = (type(value) ~= "number")
+    return is_inf or is_nan or is_nil or is_not_number
 end
 
 
@@ -276,6 +279,10 @@ end
 MuNoteEvt = {}
 
 function MuNoteEvt:new(idx, ppq, vel)
+    if not_finite(vel) then
+        error("Velocity is invalid (not a finite value)")
+    end 
+
     local o = {
         idx = idx,
         ppq = ppq,
@@ -288,6 +295,19 @@ end
 
 function MuNoteEvt:clone()
     return MuNoteEvt:new(self.idx, self.ppq, self.vel)
+end
+function MuNoteEvt:get_vel()
+    if not_finite(self.vel) then
+        error("Velocity is invalid (not a finite value)")
+    end 
+    return self.vel
+end
+
+function MuNoteEvt:set_vel(vel)
+    if not_finite(vel) then
+        error("Velocity is invalid (not a finite value)")
+    end 
+    self.vel = vel
 end
 
 -- Returns velocity clamped(1-127) and rounded
@@ -312,6 +332,7 @@ end
 function set_current_type_on(vars)
     vars.current_type = "on"
     vars.t_note_src = vars.t_noteon_src
+    vars.statistics = calculate_note_statistics(vars.t_note_src)
 end
 function is_type_on(vars)
     return vars.current_type == "on"
@@ -321,6 +342,7 @@ end
 function set_current_type_off(vars)
     vars.current_type = "off"
     vars.t_note_src = vars.t_noteoff_src
+    vars.statistics = calculate_note_statistics(vars.t_note_src)
 end
 function is_type_off(vars)
     return vars.current_type == "off"
@@ -473,7 +495,7 @@ function calculate_note_statistics(notes)
     t.regressable = true
     
     local n = notes[1]
-    local mi = n.vel
+    local mi = n:get_vel()
     local mx = mi
     local sum = mi
     local midi_sum = n:get_midi_vel()
@@ -484,7 +506,7 @@ function calculate_note_statistics(notes)
     if #notes > 1 then 
       for i=2,#notes do
           n = notes[i]
-          sum = sum + n.vel
+          sum = sum + n:get_vel() -- First safeguard, goes directly next
           midi_sum = midi_sum + n:get_midi_vel()
           ppq_sum = ppq_sum + n.ppq
           if n.vel < mi then
@@ -516,7 +538,7 @@ function calculate_note_statistics(notes)
         for i =1, #notes do
             q = notes[i].ppq - t.mean_ppq
             stddev_ppq = stddev_ppq + q*q
-            q = notes[i].vel - t.mean
+            q = notes[i]:get_vel() - t.mean
             stddev_vel = stddev_vel + q*q
         end
         t.stddev_ppq = math.sqrt(stddev_ppq/(#notes -1))
@@ -690,7 +712,7 @@ function ActionChaos:inflict_chaos(src,dst, seed, scale)
     math.randomseed(seed)
     local r = math.random
     for i=1, #src do
-        dst[i].vel = src[i].vel + 2.0*(r()-0.5)*scale*16.0
+        dst[i]:set_vel( src[i]:get_vel() + 2.0*(r()-0.5)*scale*16.0)
     end
 end
 
@@ -773,7 +795,7 @@ function ActionStraighten:do_regression(vars, s_e)
     m_t = m_t/range
 
     for i=1, #src do
-        dst[i].vel = src[i].ppq*m + b + m_t*(src[i].ppq - xm) + ey[i]*s_e
+        dst[i]:set_vel(src[i].ppq*m + b + m_t*(src[i].ppq - xm) + ey[i]*s_e)
     end
 
 end
@@ -813,7 +835,7 @@ function ActionStraighten:callback(vars)
             local y
             for i=1, #src do
                 x = (src[i].ppq-xm)
-                y = (src[i].vel-ym)
+                y = (src[i]:get_vel()-ym)
                 numerator = numerator + x*y
                 a2[i] = x
                 a3[i] = y
@@ -852,10 +874,10 @@ function ActionStraighten:callback(vars)
                 -- calculate b
                 self.b = ym - self.m*xm
                 
-                -- Calculate residials
+                -- Calculate residuals
                 for i=1, #src do
                     local pred = src[i].ppq*self.m + self.b
-                    ey[i] = src[i].vel - pred
+                    ey[i] = src[i]:get_vel() - pred
                 end
                 self.e_y = ey
                 
@@ -935,7 +957,7 @@ function ActionTilt:do_tilt (src,dst, stats, tilt, offset)
 --]]
     local m = (stats.end_ppq+ stats.start_ppq)/2.0  -- middle time
     for i=1,#src do
-        dst[i].vel = src[i].vel + (src[i].ppq - m) * tilt + offset
+        dst[i]:set_vel( src[i]:get_vel() + (src[i].ppq - m) * tilt + offset )
     end
 end
 
@@ -1030,16 +1052,16 @@ function ActionRamp:do_ramp(src, dst, gui_curve)
     local start_vel = 127
     local t = tab[s_ppq]
     for i=1,#t do
-        if t[i].vel < start_vel then
-          start_vel = t[i].vel
+        if t[i]:get_vel() < start_vel then
+          start_vel = t[i].vel    -- safe guarded in the if statement
         end
     end
     
     local t = tab[e_ppq]
     local end_vel = 1
     for i=1,#t do
-        if t[i].vel > end_vel then
-          end_vel = t[i].vel
+        if t[i]:get_vel() > end_vel then
+          end_vel = t[i].vel  -- safe guarded in the if statement
         end
     end
     
@@ -1052,11 +1074,11 @@ function ActionRamp:do_ramp(src, dst, gui_curve)
         local k = tab[ppq]
         local new_vel =  start_vel + calc_y(X, b)*height
         for j=1, #k do
-            k[j].vel = new_vel
+            k[j]:set_vel( new_vel )
         end
     end
     for i=1, #src do
-      dst[i].vel = src[i].vel
+      dst[i]:set_vel( src[i].vel )  -- the safe guard from set is good enough
     end
 end
 
@@ -1151,7 +1173,7 @@ end
 
 function VelocityHistogram:offset_and_scale (src, dst, offset, scale, stats)
     for i=1, #src do
-        dst[i].vel = (src[i].vel - stats.mean)*scale + stats.mean + offset
+        dst[i]:set_vel((src[i]:get_vel() - stats.mean)*scale + stats.mean + offset)
     end
 end
 
@@ -1507,7 +1529,7 @@ function DblButton:render(vars)
  
     ----------------------------------------------------------------------------------------------------------
     
-    if #vars.t_note_src > 0 then 
+    --if #vars.t_note_src > 0 then 
         local changed = false
         if nilencode(self.left_is_clicked) ~= nilvalue() and self.left_is_clicked then
             changed = self:left_callback(vars)
@@ -1518,7 +1540,7 @@ function DblButton:render(vars)
             local _, mh = reaper.MIDI_GetHash(vars.environment.take, false)
             vars.environment.midihash = mh 
         end
-    end
+--    end
     
 end
 --------------------------------------------------------------------------------------------------------------
@@ -1582,12 +1604,16 @@ function DblButtonShift:update_button_state(vars)
 end
 
 function DblButtonShift:left_callback(vars)
-    local last = vars.t_note_src[1].vel
+    if #vars.t_note_src == 0 then
+      return false
+    end
+
+    local last = vars.t_note_src[1]:get_vel()
     local curr
     for i=1, #vars.t_note_src do
         local j = #vars.t_note_src + 1 - i
-        curr = vars.t_note_src[j].vel 
-        vars.t_note_src[j].vel = last
+        curr = vars.t_note_src[j]:get_vel()
+        vars.t_note_src[j]:set_vel(last)
         last = curr
     end
     
@@ -1602,11 +1628,14 @@ function DblButtonShift:left_text_callback(vars)
 end
 
 function DblButtonShift:right_callback(vars)
-    local last = vars.t_note_src[#vars.t_note_src].vel
+    if #vars.t_note_src == 0 then
+      return false
+    end
+    local last = vars.t_note_src[#vars.t_note_src]:get_vel()
     local curr
     for i=1, #vars.t_note_src do
-        curr = vars.t_note_src[i].vel 
-        vars.t_note_src[i].vel = last
+        curr = vars.t_note_src[i]:get_vel() 
+        vars.t_note_src[i]:set_vel(last)
         last = curr
     end
         
