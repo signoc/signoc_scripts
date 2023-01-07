@@ -2,13 +2,9 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 0.9.1-beta
+-- @version 0.9.2-beta
 -- @changelog
---    Stopped actions that need at least 2 notes selected from starting.
---    Implemented a check for invalid integers that exits with error message
---    instead of crash. Please report if that happens. Making this check fool proof
---    is a larger refactor, so now this check that is performed for example
---    before notes are updated.
+--    note statics amount of note check.
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram_mu.lua 
 --    [nomain]../library_mu.lua
@@ -485,22 +481,24 @@ function calculate_note_statistics(notes)
     local pmx = n.ppq
     local ppq_sum = n.ppq
     
-    for i=2,#notes do
-        n = notes[i]
-        sum = sum + n.vel
-        midi_sum = midi_sum + n:get_midi_vel()
-        ppq_sum = ppq_sum + n.ppq
-        if n.vel < mi then
-            mi = n.vel
-        elseif n.vel > mx then
-            mx = n.vel
-        end
-        
-        if n.ppq < pmi then
-            pmi = n.ppq
-        elseif n.ppq > pmx then
-            pmx = n.ppq
-        end
+    if #notes > 1 then 
+      for i=2,#notes do
+          n = notes[i]
+          sum = sum + n.vel
+          midi_sum = midi_sum + n:get_midi_vel()
+          ppq_sum = ppq_sum + n.ppq
+          if n.vel < mi then
+              mi = n.vel
+          elseif n.vel > mx then
+              mx = n.vel
+          end
+          
+          if n.ppq < pmi then
+              pmi = n.ppq
+          elseif n.ppq > pmx then
+              pmx = n.ppq
+          end
+      end
     end
     
     t.min = mi
