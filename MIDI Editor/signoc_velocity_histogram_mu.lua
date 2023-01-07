@@ -2,9 +2,13 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 0.9.0-beta
+-- @version 0.9.1-beta
 -- @changelog
---    Test a change to sockmonkey72 MIDI Utils API
+--    Stopped actions that need at least 2 notes selected from starting.
+--    Implemented a check for invalid integers that exits with error message
+--    instead of crash. Please report if that happens. Making this check fool proof
+--    is a larger refactor, so now this check that is performed for example
+--    before notes are updated.
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram_mu.lua 
 --    [nomain]../library_mu.lua
@@ -257,6 +261,14 @@ end
 
 reaper.atexit(function () Exit(all_vars) end)
 
+
+function not_finite(value)
+  local is_inf = (value == math.huge or value == -math.huge)
+  local is_nan = (value ~= value)
+  return is_inf or is_nan
+end
+
+
 --------------------------------------------------------------------------------------------------------------
 -- MuNoteEvt
 --------------------------------------------------------------------------------------------------------------
@@ -284,6 +296,9 @@ end
 
 -- Returns velocity clamped(1-127) and rounded
 function MuNoteEvt:get_midi_vel()
+    if not_finite(self.vel) then
+        error("Velocity is invalid (not a finite value)")
+    end 
     if self.vel < 1 then
         return 1
     elseif self.vel > 127 then
@@ -293,41 +308,6 @@ function MuNoteEvt:get_midi_vel()
     end
 end
 
---------------------------------------------------------------------------------------------------------------
--- NoteEvt
---------------------------------------------------------------------------------------------------------------
--- Holds on or off events depending on need
--- idx = index into the Note event table where on/off byte velocity is stored
--- ppq = running ppq position
--- vel = velocity 
-
-NoteEvt = {}
-
-function NoteEvt:new(idx, ppq, vel)
-    local o = {
-        idx = idx,
-        ppq = ppq,
-        vel = vel
-    }
-    setmetatable(o, self)
-    self.__index = self
-    return o
-end
-
-function NoteEvt:clone()
-    return NoteEvt:new(self.idx, self.ppq, self.vel)
-end
-
--- Returns velocity clamped(1-127) and rounded
-function NoteEvt:get_midi_vel()
-    if self.vel < 1 then
-        return 1
-    elseif self.vel > 127 then
-        return 127
-    else
-        return math.floor(self.vel+0.5)
-    end
-end
 --------------------------------------------------------------------------------------------------------------
 -- Misc
 --------------------------------------------------------------------------------------------------------------
@@ -802,6 +782,11 @@ end
 function ActionStraighten:callback(vars)
     
     if self.is_active then
+        if #vars.t_note_src < 2 then
+            self.action_active = true
+            return false
+        end
+        
 
         if not self.action_active then
 
@@ -1080,12 +1065,15 @@ end
 
 function ActionRamp:callback(vars)
     if self.is_active then
+        if #vars.t_note_src < 2 then
+            self.action_active = false
+            return false
+        end
         if not self.action_active then
             self.action_active = true
             self.start_notes = clone_notes(vars.t_note_src)
             self.start_stats = vars.statistics
         end
-        
         local dragx, dragy = reaper.ImGui_GetMouseDragDelta(vars.ctx,0, 0,nil, 32)
         self.value = clamp(0.0 + dragx/200,-1,1)
         self.gui_curve = self.value
@@ -1097,6 +1085,7 @@ function ActionRamp:callback(vars)
         vars.statistics = calculate_note_statistics(vars.t_note_src)
         update_all_events(vars)
         return true
+    
     else
         if self.action_active then
             read_all_events(vars)
