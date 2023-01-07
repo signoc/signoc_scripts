@@ -2,7 +2,7 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 0.9.3-beta
+-- @version 0.9.4-beta
 -- @changelog
 --    Additional beta safeguards around possible non finite velocity values. 
 --    Scripts exits with error if that happens. 
@@ -78,7 +78,7 @@
 --    Switch between note on velocity and note off velocity.
 --
 
-local library = table.concat({reaper.GetResourcePath(),"Scripts","signoc_scripts","library.lua"},package.config:sub(1,1))
+local library = table.concat({reaper.GetResourcePath(),"Scripts","signoc_scripts","library_mu.lua"},package.config:sub(1,1))
 dofile(library)
 
 
