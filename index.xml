@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="73e9e5a36bd8bca865f9530b485a0f66cc7dc048" name="signoc_scripts">
+<index version="1" commit="89a2443058f85ec442680fc295f7cee2d200ef77" name="signoc_scripts">
   <category name="MIDI Editor">
     <reapack name="signoc_velocity_histogram.lua" type="script" desc="Velocity Histogram">
       <metadata>
@@ -122,6 +122,15 @@ Bugfix regarding midi events that was selected and where not note events.]]></ch
         <changelog><![CDATA[Test a change to sockmonkey72 MIDI Utils API]]></changelog>
         <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/73e9e5a36bd8bca865f9530b485a0f66cc7dc048/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
         <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/73e9e5a36bd8bca865f9530b485a0f66cc7dc048/library_mu.lua</source>
+      </version>
+      <version name="0.9.1-beta" author="signoc (Sigge Eriksson)" time="2023-01-07T12:44:29Z">
+        <changelog><![CDATA[Stopped actions that need at least 2 notes selected from starting.
+Implemented a check for invalid integers that exits with error message
+instead of crash. Please report if that happens. Making this check fool proof
+is a larger refactor, so now this check that is performed for example
+before notes are updated.]]></changelog>
+        <source main="midi_editor">https://github.com/signoc/signoc_scripts/raw/89a2443058f85ec442680fc295f7cee2d200ef77/MIDI%20Editor/signoc_velocity_histogram_mu.lua</source>
+        <source file="../library_mu.lua">https://github.com/signoc/signoc_scripts/raw/89a2443058f85ec442680fc295f7cee2d200ef77/library_mu.lua</source>
       </version>
     </reapack>
   </category>
