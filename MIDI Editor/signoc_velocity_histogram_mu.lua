@@ -2,10 +2,10 @@
 -- @author signoc (Sigge Eriksson)
 -- @links
 --    Author URI https://forum.cockos.com/member.php?u=10082
--- @version 0.9.4-beta
+-- @version 0.9.5-beta
 -- @changelog
---    Additional beta safeguards around possible non finite velocity values. 
---    Scripts exits with error if that happens. 
+--    Fix regarding release-velocity that would get clamped to 1 if it was 0.
+--    
 -- @provides
 --    [main=midi_editor]signoc_velocity_histogram_mu.lua 
 --    [nomain]../library_mu.lua
@@ -324,6 +324,19 @@ function MuNoteEvt:get_midi_vel()
     end
 end
 
+function MuNoteEvt:get_midi_relvel()
+    if not_finite(self.vel) then
+        error("Velocity is invalid (not a finite value)")
+    end 
+    if self.vel < 0 then
+        return 0
+    elseif self.vel > 127 then
+        return 127
+    else
+        return math.floor(self.vel+0.5)
+    end
+end
+
 --------------------------------------------------------------------------------------------------------------
 -- Misc
 --------------------------------------------------------------------------------------------------------------
@@ -452,7 +465,7 @@ function MU_update_selected_notes(vars)
     for i=1, #sel_on do
         local idx = sel_on[i].idx
         local vel = sel_on[i]:get_midi_vel();
-        local relvel = sel_off[i]:get_midi_vel();
+        local relvel = sel_off[i]:get_midi_relvel();
         local rv = mu.MIDI_SetNote(take, idx, nil, nil, nil, nil, nil, nil, vel, relvel)
     end
     -- commit the transaction to the take
@@ -1058,7 +1071,7 @@ function ActionRamp:do_ramp(src, dst, gui_curve)
     end
     
     local t = tab[e_ppq]
-    local end_vel = 1
+    local end_vel = 0
     for i=1,#t do
         if t[i]:get_vel() > end_vel then
           end_vel = t[i].vel  -- safe guarded in the if statement
